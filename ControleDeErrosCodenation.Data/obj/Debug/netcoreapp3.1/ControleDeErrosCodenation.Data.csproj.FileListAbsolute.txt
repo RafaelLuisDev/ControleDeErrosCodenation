@@ -1,0 +1,15 @@
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.deps.json
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.dll
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.AssemblyInfoInputs.cache
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.AssemblyInfo.cs
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.runtimeconfig.json
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.runtimeconfig.dev.json
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.pdb
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.dll
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.pdb
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.csprojAssemblyReference.cache
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.csproj.CoreCompileInputs.cache
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.csproj.CopyComplete
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.dll
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.pdb
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Data\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Data.genruntimeconfig.cache

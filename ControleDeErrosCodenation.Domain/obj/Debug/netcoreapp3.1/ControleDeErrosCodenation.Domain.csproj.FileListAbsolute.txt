@@ -1,0 +1,9 @@
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.deps.json
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.dll
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\bin\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.pdb
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.AssemblyInfoInputs.cache
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.AssemblyInfo.cs
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.csproj.CoreCompileInputs.cache
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.dll
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.pdb
+C:\Users\rafae\codenation\ControleDeErrosCodenation\ControleDeErrosCodenation.Domain\obj\Debug\netcoreapp3.1\ControleDeErrosCodenation.Domain.csprojAssemblyReference.cache
