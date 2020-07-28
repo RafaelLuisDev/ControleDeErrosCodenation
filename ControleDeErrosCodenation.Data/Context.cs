@@ -18,7 +18,7 @@ namespace ControleDeErrosCodenation.Data
         public Context(DbContextOptions<Context> options)
                : base(options)
         {
-
+            
         }
 
 
@@ -27,6 +27,7 @@ namespace ControleDeErrosCodenation.Data
             modelBuilder.ApplyConfiguration(new EnvironmentMap());
             modelBuilder.ApplyConfiguration(new LevelMap());
             modelBuilder.ApplyConfiguration(new LogMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
 
             base.OnModelCreating(modelBuilder); 
         }

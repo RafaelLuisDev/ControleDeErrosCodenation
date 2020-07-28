@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200727025056_BancoInicial.cs" />
     <Compile Remove="Migrations\20200727025056_BancoInicial.Designer.cs" />
+    <Compile Remove="Migrations\20200727052705_BancoInicialLocal.cs" />
+    <Compile Remove="Migrations\20200727052705_BancoInicialLocal.Designer.cs" />
+    <Compile Remove="Migrations\20200728015608_UserAuthetication.cs" />
+    <Compile Remove="Migrations\20200728015608_UserAuthetication.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +23,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ControleDeErrosCodenation.Domain\ControleDeErrosCodenation.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

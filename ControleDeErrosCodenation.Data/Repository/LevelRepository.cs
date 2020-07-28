@@ -15,15 +15,7 @@ namespace ControleDeErrosCodenation.Data.Repository
 
         public Level SelecionarPorNome(string nome)
         {
-            try
-            {
-                return _context.Levels.First(x => x.Name.ToLower() == nome.ToLower());
-            }
-            //Não conseguiu encontrar nenhum e pegar o primeiro
-            catch (InvalidOperationException)
-            {
-                return null;
-            }
+            return _context.Levels.FirstOrDefault(x => x.Name.ToLower() == nome.ToLower());
         }
     }
 }

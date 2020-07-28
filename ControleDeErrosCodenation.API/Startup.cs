@@ -80,8 +80,8 @@ namespace ControleDeErrosCodenation.API
                .AllowAnyMethod()
                .AllowAnyHeader());
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

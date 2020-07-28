@@ -24,6 +24,9 @@ namespace ControleDeErrosCodenation.Data.Repository
             return _context.Logs.Where(x => x.Archived == true).ToList();
         }
 
-
+        public Log GetLog(int id)
+        {
+            return _context.Logs.Find(id);
+        }
     }
 }

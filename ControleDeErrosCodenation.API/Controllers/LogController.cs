@@ -46,10 +46,10 @@ namespace ControleDeErrosCodenation.API.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<LogDTO> Get(int id)
         {
-            var levelFound = _repo.SelecionarPorId(id);
-            if (levelFound == null)
-                return NotFound(new { error = new ArrayList() { new { Log = "Log not found!" } } });
-            return Ok(_mapper.Map<LogDTO>(_repo.SelecionarPorId(id)));
+            var logFound = _repo.SelecionarPorId(id);
+            if (logFound == null)
+                return NotFound(new { message = "Log not found!" });
+            return Ok(_mapper.Map<LogDTO>(logFound));
         }
 
         // POST api/<LogController>
@@ -65,7 +65,7 @@ namespace ControleDeErrosCodenation.API.Controllers
             if (newLog.IdLevel == -1)
                 errorsList.Add(new { Level = "Level '" + logDTO.Level + "' not found!" });
             if (errorsList.Count > 0)
-                return BadRequest(new { error = errorsList });
+                return BadRequest(new { errors = errorsList });
             newLog.Date = DateTime.Now;
             newLog.Archived = false;
             _repo.Incluir(newLog);
@@ -73,29 +73,29 @@ namespace ControleDeErrosCodenation.API.Controllers
         }
 
         // PUT api/<LogController>
-        [HttpPut]
-        public ActionResult<Object> Put([FromBody] LogDTO logDTO)
+        [HttpPut("{id}")]
+        public ActionResult<Object> Put(int id, [FromBody] LogDTO logDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var newLog = _mapper.Map<Log>(logDTO);
+            var updateLog = _mapper.Map<Log>(logDTO);
             ArrayList errorsList = new ArrayList();
-            if (newLog.Id == 0)
-                errorsList.Add(new { Id = "The Id field is required!" });
-            else
-            {
-                var levelFound = _repo.SelecionarPorId(logDTO.Id);
-                if (levelFound == null)
-                    errorsList.Add(new { Id = "Id '" + logDTO.Id + "' not found!" });
-            }
-            if (newLog.IdEnvironment == -1)
+            if (updateLog.IdEnvironment == -1)
                 errorsList.Add(new { Environment = "Environment '" + logDTO.Environment + "' not found!" });
-            if (newLog.IdLevel == -1)
+            if (updateLog.IdLevel == -1)
                 errorsList.Add(new { Level = "Level '" + logDTO.Level + "' not found!" });
             if (errorsList.Count > 0)
-                return BadRequest(new { error = errorsList });
-            newLog.Date = DateTime.Now;
-            _repo.Alterar(newLog);
+                return BadRequest(new { errors = errorsList });
+            updateLog.Date = DateTime.Now;
+            updateLog.Id = id;
+            try
+            {
+                _repo.Alterar(updateLog);
+            }
+            catch (Exception)
+            {
+                return NotFound(new { message = "Id '" + logDTO.Id + "' not found!" });
+            }
             return Ok(new { success = "Log updated!" });
         }
 
@@ -103,10 +103,10 @@ namespace ControleDeErrosCodenation.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Object> Delete(int id)
         {
-            var levelFound = _repo.SelecionarPorId(id);
-            if (levelFound == null)
-                return NotFound(new { error = new ArrayList() { new { Log = "Log not found!" } } });
-            
+            var logFound = _repo.SelecionarPorId(id);
+            if (logFound == null)
+                return NotFound(new { message = "Log not found!" });
+
             _repo.Excluir(id);
             return Ok(new { success = "Log deleted!" });
         }

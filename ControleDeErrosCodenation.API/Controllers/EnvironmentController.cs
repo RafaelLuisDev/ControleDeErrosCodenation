@@ -45,7 +45,7 @@ namespace ControleDeErrosCodenation.API.Controllers
                 return BadRequest(ModelState);
             var envFound = _repo.SelecionarPorNome(environmentDTO.Name);
             if (envFound != null)
-                return BadRequest(new { errors = new { Name = new ArrayList() { "Name '" + environmentDTO.Name + "' already exists!" } } });
+                return BadRequest(new { errors = new ArrayList() { new { Name = "Name '" + environmentDTO.Name + "' already exists!" } } });
             _repo.Incluir(_mapper.Map<Environment>(environmentDTO));
             return Ok(new { success = "Environment '" + environmentDTO.Name + "' created!" });
         }
@@ -59,7 +59,7 @@ namespace ControleDeErrosCodenation.API.Controllers
 
             var envFound = _repo.SelecionarPorNome(newEnvironmentDTO.Name);
             if (envFound == null)
-                return NotFound(new { errors = new { Name = new ArrayList() { "Name '" + newEnvironmentDTO.Name + "' not found!" } } });
+                return NotFound(new { message = "Name '" + newEnvironmentDTO.Name + "' not found!" });
             envFound.Name = newEnvironmentDTO.NewName;
             _repo.Alterar(envFound);
             return Ok(new { success = "Environment updated!" });
@@ -74,9 +74,9 @@ namespace ControleDeErrosCodenation.API.Controllers
 
             var envFound = _repo.SelecionarPorNome(environmentDTO.Name);
             if (envFound == null)
-                return NotFound(new { errors = new { Name = new ArrayList() { "Name '" + environmentDTO.Name + "' not found!" } } });
+                return NotFound(new { message= "Name '" + environmentDTO.Name + "' not found!" });
             if (_repoLogs.SelecionarTodos().Where(x => x.IdEnvironment == envFound.Id).ToList().Count > 0)
-                return BadRequest(new { errors = new { Logs = new ArrayList() { "You cannot delete this environment, there are logs linked to it! Delete all linked logs before deleting this environment." } } });
+                return BadRequest(new { errors = new ArrayList() { new { message =  "You cannot delete this environment, there are logs linked to it! Delete all linked logs before deleting this environment." } } });
             _repo.Excluir(envFound.Id);
             return Ok(new { success = "Environment '" + environmentDTO.Name + "' deleted!" });
         }

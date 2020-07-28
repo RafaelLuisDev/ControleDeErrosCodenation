@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
 using ControleDeErrosCodenation.API.DTOs;
 using ControleDeErrosCodenation.API.Services;
+using ControleDeErrosCodenation.Data.Repository;
+using ControleDeErrosCodenation.Domain.Models;
 using ControleDeErrosCodenation.Domain.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,62 +34,115 @@ namespace ControleDeErrosCodenation.API.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public ActionResult<Object> Authenticate([FromBody] UserDTO userDTO)
+        public async Task<ActionResult<dynamic>> Authenticate([FromBody] UserDTO userDTO)
         {
-            var user = _repo.SelecionarUser(userDTO.Username, userDTO.Password);
+            User user = _repo.SelecionarUser(userDTO.Username, userDTO.Password);
 
             if (user == null)
-                return NotFound(new { message = "Usuário ou senha inválidos" });
+                return NotFound(new { message = "Username or password invalid!" });
 
             var token = TokenService.GenerateToken(user);
-            return Ok(new { success = "Token created!", token = token });
+            return Ok(new { success = "Token created!", token });
         }
 
         [HttpGet]
-        [Route("anonymous")]
+        [Authorize]
+        public ActionResult<Object> GetAllUsers()
+        {
+            return Ok(_repo.SelecionarTodos());
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public ActionResult<Object> GetUser(int id)
+        {
+            return Ok(_repo.SelecionarPorId(id));
+        }
+
+        [HttpPost]
         [AllowAnonymous]
-        public string Anonymous() => "Anônimo";
+        public ActionResult<Object> PostUser([FromBody] UserDTO userDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            User newUser = _mapper.Map<User>(userDTO);
+            newUser.Role = "User";
+            _repo.Incluir(newUser);
+            return Ok(new { success = "User created!" });
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public ActionResult<Object> DeleteUser([FromBody] UserDTO userDTO)
+        {
+            var userFound = _repo.SelecionarUser(userDTO.Username, userDTO.Password);
+            if (userFound == null)
+                return NotFound(new { message = "Username or password invalid!" });
+            if (userFound.Role.ToLower() != "user")
+                return BadRequest(new { errors = new ArrayList() { new { message = "Informed user isn't a simple User! In this route, you only update simple Users!" } } });
+            _repo.Excluir(userFound.Id);
+            return Ok(new { success = "User deleted!" });
+        }
 
         [HttpGet]
         [Route("authenticated")]
         [Authorize]
-        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+        public ActionResult<Object> Authenticated() => Ok(new { success = String.Format("Authenticated - {0}", User.Identity.Name) });
 
-        [HttpGet]
-        [Route("employee")]
+
+        // POST api/user/admin
+        [HttpPost]
+        [Route("admin")]
         [Authorize(Roles = "admin")]
-        public string Admin() => "Administrador";
+        public ActionResult<Object> PostAdmin([FromBody] UserDTO userDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            User newUser = _mapper.Map<User>(userDTO);
+            newUser.Role = "Admin";
+            _repo.Incluir(newUser);
+            return Ok(new { success = "User Admin created!" });
+        }
 
-        //// GET: api/<UserController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpPut]
+        [Route("upgrade/{id}")]
+        [Authorize(Roles = "admin")]
+        public ActionResult<Object> UpgradeUser(int id)
+        {
+            var updateUser = _repo.SelecionarPorId(id);
+            if (updateUser == null)
+                return NotFound(new { message = "Id '" + id + "' not found!" });
+            updateUser.Role = "Admin";
+            _repo.Alterar(updateUser);
+            return Ok(new { success = "User updated!" });
+        }
 
-        //// GET api/<UserController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpPut]
+        [Route("downgrade/{id}")]
+        [Authorize(Roles = "admin")]
+        public ActionResult<Object> DowngradeUser(int id)
+        {
+            var updateUser = _repo.SelecionarPorId(id);
+            if (updateUser == null)
+                return NotFound(new { message = "Id '" + id + "' not found!" });
+            updateUser.Role = "User";
+            _repo.Alterar(updateUser);
+            return Ok(new { success = "User updated!" });
+        }
 
-        //// POST api/<UserController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT api/<UserController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<UserController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<UserController>/5
+        [HttpDelete]
+        [Route("admin")]
+        [Authorize(Roles = "admin")]
+        public ActionResult<Object> DeleteAdmin([FromBody] UserDTO userDTO)
+        {
+            var userFound = _repo.SelecionarUser(userDTO.Username, userDTO.Password);
+            if (userFound == null)
+                return NotFound(new { message = "Username or password invalid!" });
+            if (_repo.SelecionarTodos().Count == 1)
+                return BadRequest(new { errors = new ArrayList() { new { message = "This administrator could not be deleted. This is the last administrator and at least one administrator is required!" } } });
+            _repo.Excluir(userFound.Id);
+            return Ok(new { success = "User Admin deleted!" });
+        }
     }
 }

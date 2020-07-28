@@ -18,15 +18,7 @@ namespace ControleDeErrosCodenation.Data.Repository
 
         public Environment SelecionarPorNome(string nome)
         {
-            try
-            {
-                return _context.Environments.First(x => x.Name.ToLower() == nome.ToLower());
-            }
-            //Não conseguiu encontrar nenhum e pegar o primeiro
-            catch (InvalidOperationException)
-            {
-                return null;
-            }
+            return _context.Environments.FirstOrDefault(x => x.Name.ToLower() == nome.ToLower());
         }
     }
 }

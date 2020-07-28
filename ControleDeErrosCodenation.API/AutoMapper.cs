@@ -21,7 +21,10 @@ namespace ControleDeErrosCodenation.API
                 .ForMember(x => x.IdLevel, y => y.MapFrom<LevelReverseResolver>())
                 .ForMember(x => x.Level, y => y.Ignore());
             CreateMap<Level, LevelDTO>().ReverseMap();
+            CreateMap<User, UserDTO>();
+            CreateMap<UserDTO, User>().ForMember(x => x.Role, y => y.MapFrom<UserResolver>());
             CreateMap<Environment, EnvironmentDTO>().ReverseMap();
+           
         }
     }
 
@@ -88,6 +91,24 @@ namespace ControleDeErrosCodenation.API
             if (levelFound == null)
                 return -1;
             return levelFound.Id;
+        }
+    }
+
+    public class UserResolver : IValueResolver<UserDTO, User, string>
+    {
+        private IUserRepository _repo;
+
+        public UserResolver(IUserRepository repo)
+        {
+            _repo = repo;
+        }
+
+        public string Resolve(UserDTO source, User destination, string destMember, ResolutionContext context)
+        {
+            var userFound = _repo.SelecionarPorId(source.Id);
+            if (userFound == null)
+                return null;
+            return userFound.Role;
         }
     }
 }

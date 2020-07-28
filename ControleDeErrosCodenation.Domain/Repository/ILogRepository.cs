@@ -10,5 +10,7 @@ namespace ControleDeErrosCodenation.Domain.Repository
         List<Log> ActiveLogs();
         
         List<Log> ArchivedLogs();
+
+        Log GetLog(int id);
     }
 }

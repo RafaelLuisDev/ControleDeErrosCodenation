@@ -43,7 +43,7 @@ namespace ControleDeErrosCodenation.API.Controllers
                 return BadRequest(ModelState);
             var levelFound = _repo.SelecionarPorNome(levelDTO.Name);
             if (levelFound != null)
-                return BadRequest(new { errors = new { Name = new ArrayList(){"Name '" + levelDTO.Name + "' already exists!" }} });
+                return BadRequest(new { errors = new ArrayList() { new { Name = "Name '" + levelDTO.Name + "' already exists!" } } });
             _repo.Incluir(_mapper.Map<Level>(levelDTO));
             return Ok(new { success = "Level '" + levelDTO.Name + "' created!" });
         }
@@ -57,7 +57,7 @@ namespace ControleDeErrosCodenation.API.Controllers
 
             var levelFound = _repo.SelecionarPorNome(newLevelDTO.Name);
             if (levelFound == null)
-                return NotFound(new { errors = new { Name = new ArrayList(){"Name '" + newLevelDTO.Name + "' not found!" }} });
+                return NotFound(new { message = "Name '" + newLevelDTO.Name + "' not found!" });
             levelFound.Name = newLevelDTO.NewName;
             _repo.Alterar(levelFound);
             return Ok(new { success = "Level updated!" });
@@ -72,9 +72,9 @@ namespace ControleDeErrosCodenation.API.Controllers
 
             var levelFound = _repo.SelecionarPorNome(levelDTO.Name);
             if (levelFound == null)
-                return NotFound(new { errors = new { Name = new ArrayList() { "Name '" + levelDTO.Name + "' not found!" } } });
-            if(_repoLogs.SelecionarTodos().Where(x => x.IdLevel == levelFound.Id).ToList().Count > 0)
-                return BadRequest(new { errors = new { Logs = new ArrayList() { "You cannot delete this level, there are logs linked to it! Delete all linked logs before deleting this level." } } });
+                return NotFound(new { message = "Name '" + levelDTO.Name + "' not found!" });
+            if (_repoLogs.SelecionarTodos().Where(x => x.IdLevel == levelFound.Id).ToList().Count > 0)
+                return BadRequest(new { errors = new ArrayList() { new { message =  "You cannot delete this level, there are logs linked to it! Delete all linked logs before deleting this level." } } });
             _repo.Excluir(levelFound.Id);
             return Ok(new { success = "Level '" + levelDTO.Name + "' deleted!" });
         }
